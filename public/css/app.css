@@ -4666,6 +4666,9 @@ input[type=button].btn-block {
     padding-right: 0;
     padding-left: 0;
   }
+  .logocomuna {
+    display: none;
+  }
 }
 
 @media (min-width: 768px) {
@@ -4708,6 +4711,7 @@ input[type=button].btn-block {
   .navbar-expand-md .navbar-toggler {
     display: none;
   }
+
 }
 
 @media (max-width: 991.98px) {

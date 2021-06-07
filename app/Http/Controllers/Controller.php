@@ -23,7 +23,7 @@ class Controller extends BaseController
 
     public function showpermisos() {
 
-        $permisos = Permission::all();
+        $permisos = Permission::orderBy('id', 'ASC')->paginate(10);
         return view('rolesPermisos.permisos', compact('permisos'));
         // return dd(Role::all());
         

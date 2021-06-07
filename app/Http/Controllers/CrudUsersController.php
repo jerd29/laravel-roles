@@ -19,5 +19,6 @@ class CrudUsersController extends Controller
         $usuarios = User::all();
         // dd($usuarios[0]->getAllPermissions()->pluck('name')->join(','));
         return view('crudUser.index', compact('usuarios'));
+        // dd($roles);
     }
 }

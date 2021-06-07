@@ -10,7 +10,13 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+    <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+
     <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <script src="{{ asset('js/main.js') }}"></script>
+
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -27,7 +33,11 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        {{-- <div class="cintillo" style="background-color: #343a40;">
+            <img style=" height:100px;" class="ml-1" src="{{ asset('img/cintillo.png') }}" alt="" srcset="">
+        </div> --}}
+
+        <nav class="navbar navbar-expand-md navbar-light bg-success shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -48,17 +58,34 @@
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>                               
-                        @else
+                            </li> 
+                        @endguest
+
+                        @role('usuario|admin|super-admin')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
+                            </li>
+
+                            @role('admin|super-admin')
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('crudUser') }}">{{ __('Usuarios') }}</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('showroles') }}">{{ __('Roles') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('showpermisos') }}">{{ __('Permisos') }}</a>
-                            </li>
+
+                            @endrole
+
+                            @role('super-admin')
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('showroles') }}">{{ __('Roles') }}</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('showpermisos') }}">{{ __('Permisos') }}</a>
+                                </li>
+                                
+                            @endrole
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -76,10 +103,19 @@
                                     </form>
                                 </div>
                             </li>
-                        @endguest
+
+                         @endrole
+
+
+
+
+
+                        
                     </ul>
                 </div>
             </div>
+            <img style="width: 4%;" class="logocomuna" src="{{ asset('img/comunas.png') }}" alt="" srcset="">
+
         </nav>
 
         <main class="py-4">

@@ -25,11 +25,24 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/usuarios', 'CrudUsersController@index')->name('crudUser');
 
-Route::get('/roles', 'Controller@showroles')->name('showroles');
+Route::group(['middleware' => ['role:admin|super-admin']], function () {
 
-Route::get('/permisos', 'Controller@showpermisos')->name('showpermisos');
+
+    Route::get('/usuarios', 'CrudUsersController@index')->name('crudUser');
+
+});
+
+Route::group(['middleware' => ['role:super-admin']], function () {
+
+
+    Route::get('/roles', 'Controller@showroles')->name('showroles');
+
+    Route::get('/permisos', 'Controller@showpermisos')->name('showpermisos');
+
+});
+
+
 
 
 // Route::get('/create', function() {
