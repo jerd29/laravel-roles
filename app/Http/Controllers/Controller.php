@@ -16,7 +16,9 @@ class Controller extends BaseController
     public function showroles() {
 
         $roles = Role::all();
-        return view('rolesPermisos.roles', compact('roles'));
+        $permisos = Permission::all();
+        return view('rolesPermisos.roles', compact('roles' , 'permisos'));
+        
         // return dd(Role::all());
         
     }

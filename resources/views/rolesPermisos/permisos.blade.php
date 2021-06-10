@@ -2,10 +2,10 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+    {{-- <div class="row">
             <button class="btn-primary mb-2" id="createbtn-permisos">Crear nuevo Permisos</button>
-    </div>
-    <div class="row justify-content-center">
+    </div> --}}
+    <div class="row justify-content-center mt-5">
         <table class="table table-bordered">
             <thead class="thead-dark">
               <tr>
@@ -13,7 +13,7 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Fecha de Creacion</th>
                 <th scope="col">Fecha de Modificacion</th>
-                <th scope="col">Acciones</th>
+                {{-- <th scope="col">Acciones</th> --}}
               </tr>
             </thead>
             <tbody>
@@ -24,7 +24,7 @@
                         <td>{{ $permiso->created_at }}</td>
                         <td>{{ $permiso->updated_at }}</td>
 
-                        <td>
+                        {{-- <td>
                             <button class="btn-warning" id="editbtn-permisos">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"> Editar</i>
                             </button>
@@ -32,7 +32,7 @@
                             <button class="btn-danger" id="deletebtn-permisos">
                                 <i class="fa fa-trash" aria-hidden="true"> Eliminar</i>
                             </button>
-                        </td>
+                        </td> --}}
                     </tr>
                 
                 @endforeach
@@ -94,3 +94,7 @@
         </div>
     </div>
 @endsection
+
+
+
+
