@@ -16,6 +16,9 @@
 
     <script src="{{ asset('js/main.js') }}"></script>
 
+    <script src="{{ asset('js/alertify.js') }}"></script>
+
+
 
 
     <!-- Fonts -->
@@ -24,6 +27,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('css/alertify.css') }}" rel="stylesheet">
+
 
 <script src="{{'js/fontawesome.js'}}"></script>
 

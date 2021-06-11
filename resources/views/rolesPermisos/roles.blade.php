@@ -44,6 +44,8 @@
     </div>
 </div>
 
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+
 <div class="modal fade" id="createmodal-rol">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -54,17 +56,17 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="rolform" method="POST">
                     <div class="form-group">
                       <label for="recipient-name" class="col-form-label">Nombre del rol:</label>
-                      <input type="text" class="form-control" id="rol-name">
+                      <input type="text" class="form-control" id="Erol-name">
 
                     <label for="recipient-name" class="col-form-label">Permisos:</label>
                       <br>
                       @foreach ($permisos as $permiso)
 
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="{{ $permiso->name }}" id="{{ $permiso->name }}" value="{{ $permiso->id }}">
+                        <input class="form-check-input" type="radio" name="{{ $permiso->name }}" id="{{ $permiso->name }}" value="{{ $permiso->name }}">
                         <label class="form-check-label" for="{{ $permiso->name }}">
                             {{ $permiso->name }}
                         </label>
@@ -74,10 +76,12 @@
 
 
                     </div>
+
+                    <div class="modal-footer">
+                        {{-- <input type="submit" class="btn btn-primary" value="Guardar"> --}}
+                        <button type="submit" id="btnGuardar" class="btn btn-dark">Guardar</button>
+                    </div>
                   </form>
-            </div>
-            <div class="modal-footer">
-                <input type="submit" class="btn btn-primary" value="Guardar">
             </div>
         </div>
     </div>
@@ -93,7 +97,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="rolform">
                     <div class="form-group">
                       <label for="recipient-name" class="col-form-label">Nombre del rol:</label>
                       <input type="text" class="form-control" id="Erol-name">
@@ -104,7 +108,7 @@
 
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="{{ $permiso->name }}" id="{{ str_replace(' ', '', $permiso->name) }}" value="{{ $permiso->id }}">
-                        <label class="form-check-label" for="{{ $permiso->name }}">
+                        <label class="form-check-label" for="">
                             {{ $permiso->name }}
                         </label>
                       </div>
@@ -113,12 +117,14 @@
 
 
                     </div>
+                        <div class="modal-footer">
+                            {{-- <input type="submit" class="btn btn-primary" value="Guardar"> --}}
+                            <button type="submit" id="btnGuardar" class="btn btn-dark">Guardar</button>
+                        </div>
+                        </div>
                   </form>
             </div>
-            <div class="modal-footer">
-                <input type="submit" class="btn btn-primary" value="Guardar">
-            </div>
-        </div>
+
     </div>
 </div>
 @endsection

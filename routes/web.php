@@ -21,12 +21,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::group(['middleware' => ['role:admin|super-admin']], function () {
+
+    // Route::get('rol-form', 'RolesPermisosController@create');
+    Route::post('rolform', 'RolesPermisosController@store');
 
 
     Route::get('/usuarios', 'CrudUsersController@index')->name('crudUser');
@@ -35,6 +39,8 @@ Route::group(['middleware' => ['role:admin|super-admin']], function () {
 
 Route::group(['middleware' => ['role:super-admin']], function () {
 
+    // Route::get('rol-form', 'RolesPermisosController@create');
+    Route::post('rol-form', 'RolesPermisosController@store');
 
     Route::get('/roles', 'Controller@showroles')->name('showroles');
 

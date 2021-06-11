@@ -1,4 +1,15 @@
 $(document).ready(function() {
+  
+  // $('#marcador').click(function(){
+  //   if($(this).prop('checked') == true)
+  //   {
+  //     $('input.checkbox').prop('checked',true);
+  //   }
+  //   else
+  //   {
+  //     $('input.checkbox').prop('checked',false);
+  //   }
+  // });
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -18,7 +29,7 @@ $(document).ready(function() {
     // on modal show
     $(document).on('click', '#editbtn-rol', function() {
       fila = $(this).closest("tr");
-      // id = parseInt(fila.find("td:eq(0)").text());
+      id = parseInt(fila.find("td:eq(0)").text());
        namerol = fila.find("td:eq(1)").text();
        permisos1 = fila.find("td:eq(2)").text();
        arraypermisos = permisos1.split(',');
@@ -30,7 +41,7 @@ $(document).ready(function() {
           {
             $('input:checkbox').attr('checked','checked');
             $(this).val('uncheck all');
-            $(arraysinespacion).prop("checked", false);
+            // $(arraysinespacio).prop("checked", false);
 
           }
 
@@ -38,8 +49,8 @@ $(document).ready(function() {
         else 
           {
             arraypermisos1 = '#' + arraypermisos.join(',#');    
-            arraysinespacion = arraypermisos1.split(' ').join('');
-            $(arraysinespacion).prop("checked", true);
+            arraysinespacio = arraypermisos1.split(' ').join('');
+            $(arraysinespacio).prop("checked", true);
           }
       })
 
@@ -67,7 +78,10 @@ $(document).ready(function() {
     
     $(document).on('click', "#createbtn-rol", function() {
       $(this).addClass('edit-item-trigger-clicked'); //useful for identifying which trigger was clicked and consequently grab data from the correct row and not the wrong one.
-  
+      $("#rolform").trigger("reset");
+      
+      id=null;
+
       var options = {
         // 'backdrop': 'static'
 
@@ -113,6 +127,46 @@ $(document).ready(function() {
           // }
       //     });
       //   }
+  });
+
+  //submit para el Alta y Actualización
+  $("#rolform").submit(function (e) {
+    e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
+    rolname = $.trim($("#Erol-name").val());
+    idrol = id;
+    let _token   = $('meta[name="csrf-token"]').attr('content');
+
+    // Toma todos los ids de cada checkbox
+    var listaValoresCheckboxes = $("input[type='radio']:checked").map(function () {
+      return this.value;
+     }).get();
+
+     permisos = listaValoresCheckboxes;
+
+    console.log(permisos);
+    console.log(rolname);
+    // console.log(id);
+
+    $.ajax({
+      url: "/laravel-roles/public/rolform",
+      type: "POST",
+      datatype: "json",
+      data: { idrol: idrol, permisos: permisos, _token: _token, rolname:rolname },
+      success: function (data) {
+        alertify.success("Actualizado");
+        location.reload();
+        // $("#rolform")[0].reset();
+
+        // console.log(data);
+      },
+
+      error: function (data) {
+        // alertify.error("Fallo en el Registro");
+        // table.ajax.reload(null, false);
+        console.log('Error');
+      },
+    });
+    $("#modalCRUD_CC").modal("hide");
   });
 
 })
