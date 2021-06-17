@@ -1,15 +1,6 @@
 $(document).ready(function() {
-  
-  // $('#marcador').click(function(){
-  //   if($(this).prop('checked') == true)
-  //   {
-  //     $('input.checkbox').prop('checked',true);
-  //   }
-  //   else
-  //   {
-  //     $('input.checkbox').prop('checked',false);
-  //   }
-  // });
+
+
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -24,7 +15,7 @@ $(document).ready(function() {
         // 'backdrop': 'static'
       };
       $('#editmodal-rol').modal(options)
-    })
+    });
   
     // on modal show
     $(document).on('click', '#editbtn-rol', function() {
@@ -33,6 +24,8 @@ $(document).ready(function() {
        namerol = fila.find("td:eq(1)").text();
        permisos1 = fila.find("td:eq(2)").text();
        arraypermisos = permisos1.split(',');
+       $("#erolform").trigger("reset");
+
 
       $(arraypermisos).each(function() {
 
@@ -52,20 +45,20 @@ $(document).ready(function() {
             arraysinespacio = arraypermisos1.split(' ').join('');
             $(arraysinespacio).prop("checked", true);
           }
-      })
+      });
 
       $(".modal-header").css("background-color", "#ffed4a");
       $(".modal-header").css("color", "black");
       $("#Erol-name").val(namerol);
       
   
-    })
+    });
   
     // on modal hide
     $('#editmodal-rol').on('hide.bs.modal', function() {
       $('.edit-item-trigger-clicked').removeClass('edit-item-trigger-clicked')
-      $("#editform-rol").trigger("reset");
-    })
+      $("#erolform").trigger("reset");
+    });
 
 
 
@@ -87,20 +80,20 @@ $(document).ready(function() {
 
       };
       $('#createmodal-rol').modal(options)
-    })
+    });
   
     // on modal show
     $(document).on('click', '#createbtn-rol', function() {
       $(".modal-header").css("background-color", "#007bff");
       $(".modal-header").css("color", "white");
   
-    })
+    });
   
     // on modal hide
     $('#createmodal-rol').on('hide.bs.modal', function() {
       $('.edit-item-trigger-clicked').removeClass('edit-item-trigger-clicked')
       $("#createform-rol").trigger("reset");
-    })
+    });
 
 
 
@@ -146,6 +139,10 @@ $(document).ready(function() {
     console.log(permisos);
     console.log(rolname);
     // console.log(id);
+    if(rolname == "") {
+      $('#mensaje_np').fadeIn();
+      return false;
+    }
 
     $.ajax({
       url: "/laravel-roles/public/rolform",
@@ -169,4 +166,50 @@ $(document).ready(function() {
     $("#modalCRUD_CC").modal("hide");
   });
 
-})
+    //submit para la Actualización
+    $("#erolform").submit(function (e) {
+      e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
+      rolnameid = $.trim($("#Erol-name").val());
+      rolname = fila.find('td:eq(1)').text();
+      idrol = id;
+      let _token   = $('meta[name="csrf-token"]').attr('content');
+  
+      // Toma todos los ids de cada checkbox
+      var listaValoresCheckboxes = $("input[type='radio']:checked").map(function () {
+        return this.value;
+       }).get();
+  
+       permisos = listaValoresCheckboxes;
+  
+      console.log(permisos);
+      console.log(rolname);
+      // console.log(id);
+
+      if(rolname == "") {
+        $('#mensaje_np').fadeIn();
+        return false;
+      }
+  
+      $.ajax({
+        url: "/laravel-roles/public/rolform",
+        type: "aa",
+        datatype: "json",
+        data: { idrol: idrol, permisos: permisos, _token: _token, rolname:rolname },
+        success: function (data) {
+          alertify.success("Actualizado");
+          location.reload();
+          // $("#rolform")[0].reset();
+  
+          // console.log(data);
+        },
+  
+        error: function (data) {
+          // alertify.error("Fallo en el Registro");
+          // table.ajax.reload(null, false);
+          console.log('Error');
+        },
+      });
+      $("#modalCRUD_CC").modal("hide");
+    });
+
+});

@@ -60,6 +60,8 @@
                     <div class="form-group">
                       <label for="recipient-name" class="col-form-label">Nombre del rol:</label>
                       <input type="text" class="form-control" id="Erol-name">
+                      <div id="mensaje_np" class="ocultar" style="display: none; color:red;">Debe agregar el nombre del Rol</div>
+                    
 
                     <label for="recipient-name" class="col-form-label">Permisos:</label>
                       <br>
@@ -97,10 +99,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="rolform">
+                <form id="erolform">
                     <div class="form-group">
                       <label for="recipient-name" class="col-form-label">Nombre del rol:</label>
                       <input type="text" class="form-control" id="Erol-name">
+                      <div id="mensaje_np" class="ocultar" style="display: none; color:red;">Debe agregar el nombre del Rol</div>
+
 
                     <label for="recipient-name" class="col-form-label">Permisos:</label>
                       <br>
