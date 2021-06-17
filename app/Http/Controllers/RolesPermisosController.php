@@ -45,4 +45,33 @@ public function create()
 
     
     }
+
+    public function destroy($id){
+   
+        Role::find($id)->delete($id);
+      
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
+    }
+
+      // Update record
+    public function update(Request $request){
+
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $editid = $request->input('editid');
+
+        if($name !='' && $email != ''){
+        $data = array('name'=>$name,"email"=>$email);
+
+        // Call updateData() method of Page Model
+        Role::updateData($editid, $data);
+        echo 'Update successfully.';
+        }else{
+        echo 'Fill all fields.';
+        }
+
+        exit; 
+    }
 }

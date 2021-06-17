@@ -25,6 +25,8 @@ $(document).ready(function() {
        permisos1 = fila.find("td:eq(2)").text();
        arraypermisos = permisos1.split(',');
        $("#erolform").trigger("reset");
+       $("#Erol-name").val(namerol);
+
 
 
       $(arraypermisos).each(function() {
@@ -32,10 +34,10 @@ $(document).ready(function() {
         // SI EL ROL NO TIENE NINGUN PERMISO ASIGNADO
         if (arraypermisos == '') 
           {
-            $('input:checkbox').attr('checked','checked');
+            // $('input:checkbox').attr('checked','checked');
             $(this).val('uncheck all');
             // $(arraysinespacio).prop("checked", false);
-
+            // console.log(arraypermisos);
           }
 
         // SI EL ROL TIENE ALGUN PERMISO ASIGNADO
@@ -44,6 +46,7 @@ $(document).ready(function() {
             arraypermisos1 = '#' + arraypermisos.join(',#');    
             arraysinespacio = arraypermisos1.split(' ').join('');
             $(arraysinespacio).prop("checked", true);
+            // console.log(arraypermisos);
           }
       });
 
@@ -72,6 +75,8 @@ $(document).ready(function() {
     $(document).on('click', "#createbtn-rol", function() {
       $(this).addClass('edit-item-trigger-clicked'); //useful for identifying which trigger was clicked and consequently grab data from the correct row and not the wrong one.
       $("#rolform").trigger("reset");
+      $('#mensaje_np').css("display", "none");
+      $(this).val('uncheck all');
       
       id=null;
 
@@ -98,28 +103,32 @@ $(document).ready(function() {
 
 
     //Borrar
-  $(document).on("click", "#deletebtn-permisos", function () {
+  $(document).on("click", "#deletebtn-rol", function () {
     fila = $(this);
     id = parseInt($(this).closest("tr").find("td:eq(0)").text());
     permiso = $(this).closest("tr").find("td:eq(1)").text();
-    var respuesta = confirm("¿Está seguro de eliminar el Permiso " + permiso + "?");
+    var respuesta = confirm("¿Está seguro de eliminar el Rol " + permiso + "?");
+    let _token   = $('meta[name="csrf-token"]').attr('content');
+
     console.log(respuesta);
-      // if (respuesta) {
-      //   $.ajax({
-      //     url: "../include/user/crud_user.php",
-      //     type: "POST",
-      //     datatype: "json",
-      //     data: { opcion: opcion, id: id },
-      //     success: function (data) {
-      //       tabla_dep.ajax.reload(null, false);
-      //       alertify.success("eliminado con exito!");
-      //     },
-          // success: function() {
-          // tablacc = $('#tabla').load('./include/tablacc.php');
-          // console.log(data);
-          // }
-      //     });
-      //   }
+      if (respuesta) {
+        $.ajax({
+          url: "roles/"+id,
+          type: "DELETE",
+          datatype: "json",
+          data: {            
+             "id": id,
+            "_token": _token,
+           },
+          success: function () {
+            // tabla_dep.ajax.reload(null, false);
+            // $('#table_rols').data.reload();
+            // $('#table_rols').DataTable().ajax.reload();
+            location.reload();
+            alertify.success("eliminado con exito!");
+          }
+          });
+        }
   });
 
   //submit para el Alta y Actualización
@@ -130,7 +139,7 @@ $(document).ready(function() {
     let _token   = $('meta[name="csrf-token"]').attr('content');
 
     // Toma todos los ids de cada checkbox
-    var listaValoresCheckboxes = $("input[type='radio']:checked").map(function () {
+    var listaValoresCheckboxes = $("input[type='checkbox']:checked").map(function () {
       return this.value;
      }).get();
 
@@ -141,6 +150,11 @@ $(document).ready(function() {
     // console.log(id);
     if(rolname == "") {
       $('#mensaje_np').fadeIn();
+      return false;
+    }
+
+    if (!jQuery(".form-check-input").is(":checked")) {
+      $('#mensaje_per').fadeIn();
       return false;
     }
 
@@ -158,8 +172,9 @@ $(document).ready(function() {
       },
 
       error: function (data) {
-        // alertify.error("Fallo en el Registro");
+        alertify.error("Fallo en el Registro");
         // table.ajax.reload(null, false);
+        // location.reload();
         console.log('Error');
       },
     });

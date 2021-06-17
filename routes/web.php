@@ -32,8 +32,12 @@ Route::group(['middleware' => ['role:admin|super-admin']], function () {
     // Route::get('rol-form', 'RolesPermisosController@create');
     Route::post('rolform', 'RolesPermisosController@store');
 
-
     Route::get('/usuarios', 'CrudUsersController@index')->name('crudUser');
+
+    Route::delete('roles/{id}', 'RolesPermisosController@destroy')->name('roles.destroy');
+
+    Route::delete('updateRol', 'RolesPermisosController@update')->name('roles.update');
+
 
 });
 

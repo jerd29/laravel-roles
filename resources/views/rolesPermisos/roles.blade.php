@@ -6,7 +6,7 @@
             <button class="btn-primary mb-2" id="createbtn-rol">Crear nuevo Rol</button>
         </div>
     <div class="row justify-content-center">
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="table_rols">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">Id</th>
@@ -59,7 +59,7 @@
                 <form id="rolform" method="POST">
                     <div class="form-group">
                       <label for="recipient-name" class="col-form-label">Nombre del rol:</label>
-                      <input type="text" class="form-control" id="Erol-name">
+                      <input type="text" class="form-control" id="rol-name">
                       <div id="mensaje_np" class="ocultar" style="display: none; color:red;">Debe agregar el nombre del Rol</div>
                     
 
@@ -68,13 +68,14 @@
                       @foreach ($permisos as $permiso)
 
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="{{ $permiso->name }}" id="{{ $permiso->name }}" value="{{ $permiso->name }}">
+                        <input class="form-check-input" type="checkbox" name="{{ $permiso->name }}" id="{{ $permiso->name }}" value="{{ $permiso->name }}">
                         <label class="form-check-label" for="{{ $permiso->name }}">
                             {{ $permiso->name }}
                         </label>
-                      </div>
-                          
+                      </div>                         
                       @endforeach
+                      <div id="mensaje_per" class="ocultar" style="display: none; color:red;">Debe otorgar algun permiso</div>
+
 
 
                     </div>
@@ -111,10 +112,12 @@
                       @foreach ($permisos as $permiso)
 
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="{{ $permiso->name }}" id="{{ str_replace(' ', '', $permiso->name) }}" value="{{ $permiso->id }}">
+                        <input class="form-check-input" type="checkbox" name="{{ $permiso->name }}" id="{{ str_replace(' ', '', $permiso->name) }}" value="{{ $permiso->id }}">
                         <label class="form-check-label" for="">
                             {{ $permiso->name }}
                         </label>
+                        <div id="mensaje_per" class="ocultar" style="display: none; color:red;">Debe otorgar algun permiso</div>
+
                       </div>
                           
                       @endforeach
