@@ -16,9 +16,11 @@ class CrudUsersController extends Controller
     //
     public function index()
     {
-        $usuarios = User::all();
+        $usuarios_superadmin = User::all();
+        $usuarios_admin = User::notRole('3')->get();
+        // $usuarios_superadmin = User::with('role')->get();
         // dd($usuarios[0]->getAllPermissions()->pluck('name')->join(','));
-        return view('crudUser.index', compact('usuarios'));
+        return view('crudUser.index', compact('usuarios_admin', 'usuarios_superadmin'));
         // dd($roles);
     }
 }

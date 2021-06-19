@@ -11,7 +11,9 @@
 <div class="container">
     <div class="row">
         <a href="{{ route('register') }}">
+            @can('crear usuarios')
             <button class="btn-primary mb-2">Crear Usuario</button>
+            @endcan
         </a>
     </div>
     <div class="row justify-content-center">
@@ -24,11 +26,45 @@
                 <th scope="col">Fecha de Creacion</th>
                 <th scope="col">Roles</th>
                 <th scope="col">Permisos</th>
-                <th scope="col">Acciones</th>
+                @if(auth()->user()->can('editar usuarios') || auth()->user()->can('eliminar usuarios'))
+                    <th scope="col">Acciones</th>
+                @endif
               </tr>
             </thead>
             <tbody>
-                @foreach ($usuarios as $usuario)
+                @role('super-admin')
+
+                    @foreach ($usuarios_superadmin as $usuario)
+                        <tr>
+                            <td>{{ $usuario->id }}</td>
+                            <td>{{ $usuario->name }}</td>
+                            <td>{{ $usuario->email }}</td>
+                            <td>{{ $usuario->created_at }}</td>
+                            <td>{{ $usuario->getRoleNames()->join(',') }}</td>
+                            <td>{{ $usuario->getAllPermissions()->pluck('name')->join(' ,') }}</td>
+
+                            <td>
+
+                                @can('editar usuarios')
+                                        <button class="btn-warning" id="editbtn-rol">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"> Editar</i>
+                                        </button>
+                                @endcan
+
+                                @can('eliminar usuarios')
+                                        <button class="btn-danger" id="deletebtn-rol">
+                                            <i class="fa fa-trash" aria-hidden="true"> Eliminar</i>
+                                        </button>
+                                @endcan
+                            </td>
+
+                        </tr>
+                    
+                    @endforeach
+                @endrole
+
+                @unlessrole('super-admin')
+                    @foreach ($usuarios_admin as $usuario)
                     <tr>
                         <td>{{ $usuario->id }}</td>
                         <td>{{ $usuario->name }}</td>
@@ -37,18 +73,24 @@
                         <td>{{ $usuario->getRoleNames()->join(',') }}</td>
                         <td>{{ $usuario->getAllPermissions()->pluck('name')->join(' ,') }}</td>
                         <td>
-                        <a href="{{}}">
-                            <button class="btn-warning">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"> Editar</i>
-                            </button>
-                        </a>
-                            <button class="btn-danger">
-                                <i class="fa fa-trash" aria-hidden="true"> Eliminar</i>
-                            </button>
+
+                            @can('editar usuarios')
+                                    <button class="btn-warning" id="editbtn-rol">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"> Editar</i>
+                                    </button>
+                            @endcan
+
+                            @can('eliminar usuarios')
+                                    <button class="btn-danger" id="deletebtn-rol">
+                                        <i class="fa fa-trash" aria-hidden="true"> Eliminar</i>
+                                    </button>
+                            @endcan
                         </td>
                     </tr>
                 
-                @endforeach
+                    @endforeach
+                @endrole
+
             </tbody>
           </table>
     </div>

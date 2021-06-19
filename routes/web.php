@@ -26,27 +26,29 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::group(['middleware' => ['permission:crear roles|editar roles|eliminar roles']], function () {
 
-Route::group(['middleware' => ['role:admin|super-admin']], function () {
+    Route::get('/roles', 'Controller@showroles')->name('showroles');
 
-    // Route::get('rol-form', 'RolesPermisosController@create');
     Route::post('rolform', 'RolesPermisosController@store');
-
-    Route::get('/usuarios', 'CrudUsersController@index')->name('crudUser');
 
     Route::delete('roles/{id}', 'RolesPermisosController@destroy')->name('roles.destroy');
 
-    Route::delete('updateRol', 'RolesPermisosController@update')->name('roles.update');
-
+    Route::post('updateRol', 'RolesPermisosController@updateRol')->name('roles.update');
 
 });
+
+Route::group(['middleware' => ['permission:crear usuarios|editar usuarios|eliminar usuarios']], function () {
+
+    Route::get('/usuarios', 'CrudUsersController@index')->name('crudUser');
+
+});
+
 
 Route::group(['middleware' => ['role:super-admin']], function () {
 
     // Route::get('rol-form', 'RolesPermisosController@create');
     Route::post('rol-form', 'RolesPermisosController@store');
-
-    Route::get('/roles', 'Controller@showroles')->name('showroles');
 
     Route::get('/permisos', 'Controller@showpermisos')->name('showpermisos');
 

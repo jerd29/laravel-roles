@@ -66,25 +66,43 @@
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li> 
                         @endguest
+                        
 
-                        @role('usuario|admin|super-admin')
+
+                        {{-- @role('usuario|admin|super-admin') --}}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
                             </li>
 
-                            @role('admin|super-admin')
+                            
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('crudUser') }}">{{ __('Usuarios') }}</a>
-                            </li>
+                            @if(
+                                auth()->user()->can('editar usuarios') || 
+                                auth()->user()->can('eliminar usuarios') ||
+                                auth()->user()->can('crear usuarios')
+                                )
 
-                            @endrole
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('crudUser') }}">{{ __('Usuarios') }}</a>
+                                </li>
 
-                            @role('super-admin')
+                            @endif
 
+
+                            @if(
+                                auth()->user()->can('editar roles') || 
+                                auth()->user()->can('eliminar roles') ||
+                                auth()->user()->can('crear roles')
+                                )
+                                
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('showroles') }}">{{ __('Roles') }}</a>
                                 </li>
+    
+                            @endif
+
+                            @role('super-admin')
+
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('showpermisos') }}">{{ __('Permisos') }}</a>
@@ -110,7 +128,7 @@
                                 </div>
                             </li>
 
-                         @endrole
+                         {{-- @endrole --}}
 
 
 

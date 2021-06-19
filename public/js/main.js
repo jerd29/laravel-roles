@@ -131,10 +131,10 @@ $(document).ready(function() {
         }
   });
 
-  //submit para el Alta y Actualización
+  //submit para el Alta 
   $("#rolform").submit(function (e) {
     e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
-    rolname = $.trim($("#Erol-name").val());
+    rolname = $.trim($("#rol-name").val());
     idrol = id;
     let _token   = $('meta[name="csrf-token"]').attr('content');
 
@@ -181,45 +181,52 @@ $(document).ready(function() {
     $("#modalCRUD_CC").modal("hide");
   });
 
+
+
+
+
+
     //submit para la Actualización
     $("#erolform").submit(function (e) {
       e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
-      rolnameid = $.trim($("#Erol-name").val());
-      rolname = fila.find('td:eq(1)').text();
       idrol = id;
+
+      namerol = $.trim($('#Erol-name').val());  
+
       let _token   = $('meta[name="csrf-token"]').attr('content');
-  
-      // Toma todos los ids de cada checkbox
-      var listaValoresCheckboxes = $("input[type='radio']:checked").map(function () {
+
+      var listaValoresCheckboxes = $("input[type='checkbox']:checked").map(function () {
         return this.value;
        }).get();
   
        permisos = listaValoresCheckboxes;
-  
-      console.log(permisos);
-      console.log(rolname);
-      // console.log(id);
 
-      if(rolname == "") {
-        $('#mensaje_np').fadeIn();
+      if(namerol == "") {
+        $('#emensaje_np').fadeIn();
         return false;
       }
+
+      if (!jQuery(".form-check-input").is(":checked")) {
+        $('#emensaje_per').fadeIn();
+        return false;
+      }
+
   
       $.ajax({
-        url: "/laravel-roles/public/rolform",
-        type: "aa",
+        url: "/laravel-roles/public/updateRol",
+        type: "post",
         datatype: "json",
-        data: { idrol: idrol, permisos: permisos, _token: _token, rolname:rolname },
+        data: { idrol: idrol, permisos: permisos, _token: _token, namerol:namerol },
         success: function (data) {
           alertify.success("Actualizado");
+          $("#erolform")[0].reset();
           location.reload();
-          // $("#rolform")[0].reset();
   
-          // console.log(data);
+          // console.log(namerol);
         },
   
         error: function (data) {
-          // alertify.error("Fallo en el Registro");
+          alertify.error("Fallo en el Registro");
           // table.ajax.reload(null, false);
           console.log('Error');
         },

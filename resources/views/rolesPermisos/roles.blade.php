@@ -2,8 +2,11 @@
 
 @section('content')
 <div class="container">
+
         <div class="row">
+            @can('crear roles')
             <button class="btn-primary mb-2" id="createbtn-rol">Crear nuevo Rol</button>
+            @endcan
         </div>
     <div class="row justify-content-center">
         <table class="table table-bordered" id="table_rols">
@@ -14,31 +17,69 @@
                 <th scope="col">Permisos</th>
                 <th scope="col">Fecha de Creacion</th>
                 <th scope="col">Fecha de Modificacion</th>
-                <th scope="col">Acciones</th>
+                @if(auth()->user()->can('editar roles') || auth()->user()->can('eliminar roles'))
+                    <th scope="col">Acciones</th>
+                @endif
               </tr>
             </thead>
             <tbody>
-                @foreach ($roles as $rol)
-                    <tr>
-                        <td>{{ $rol->id }}</td>
-                        <td>{{ $rol->name }}</td>
-                        <td>{{ $rol->getAllPermissions()->pluck('name')->join(' ,') }}</td>
-                        <td>{{ $rol->created_at }}</td>
-                        <td>{{ $rol->updated_at }}</td>
+                @role('super-admin')
 
+                    @foreach ($roles_superadmin as $rol)
+                        <tr>
+                            <td>{{ $rol->id }}</td>
+                            <td>{{ $rol->name }}</td>
+                            <td>{{ $rol->getAllPermissions()->pluck('name')->join(' ,') }}</td>
+                            <td>{{ $rol->created_at }}</td>
+                            <td>{{ $rol->updated_at }}</td>
+                            <td>
 
-                        <td>
-                            <button class="btn-warning" id="editbtn-rol">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"> Editar</i>
-                            </button>
+                                @can('editar roles')
+                                        <button class="btn-warning" id="editbtn-rol">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"> Editar</i>
+                                        </button>
+                                @endcan
 
-                            <button class="btn-danger" id="deletebtn-rol">
-                                <i class="fa fa-trash" aria-hidden="true"> Eliminar</i>
-                            </button>
-                        </td>
-                    </tr>
+                                @can('eliminar roles')
+                                        <button class="btn-danger" id="deletebtn-rol">
+                                            <i class="fa fa-trash" aria-hidden="true"> Eliminar</i>
+                                        </button>
+                                @endcan
+                            </td>
+
+                        </tr>
+                    
+                    @endforeach
+                @endrole
+
+                @unlessrole('super-admin')
+                    @foreach ($roles_admin as $rol)
+                        <tr>
+                            <td>{{ $rol->id }}</td>
+                            <td>{{ $rol->name }}</td>
+                            <td>{{ $rol->getAllPermissions()->pluck('name')->join(' ,') }}</td>
+                            <td>{{ $rol->created_at }}</td>
+                            <td>{{ $rol->updated_at }}</td>
+
+                            <td>
+
+                                @can('editar roles')
+                                        <button class="btn-warning" id="editbtn-rol">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"> Editar</i>
+                                        </button>
+                                @endcan
+
+                                @can('eliminar roles')
+                                        <button class="btn-danger" id="deletebtn-rol">
+                                            <i class="fa fa-trash" aria-hidden="true"> Eliminar</i>
+                                        </button>
+                                @endcan
+                            </td>
+                        </tr>
                 
-                @endforeach
+                    @endforeach
+                @endrole
+
             </tbody>
           </table>
     </div>
@@ -104,7 +145,7 @@
                     <div class="form-group">
                       <label for="recipient-name" class="col-form-label">Nombre del rol:</label>
                       <input type="text" class="form-control" id="Erol-name">
-                      <div id="mensaje_np" class="ocultar" style="display: none; color:red;">Debe agregar el nombre del Rol</div>
+                      <div id="emensaje_np" class="ocultar" style="display: none; color:red;">Debe agregar el nombre del Rol</div>
 
 
                     <label for="recipient-name" class="col-form-label">Permisos:</label>
@@ -116,11 +157,10 @@
                         <label class="form-check-label" for="">
                             {{ $permiso->name }}
                         </label>
-                        <div id="mensaje_per" class="ocultar" style="display: none; color:red;">Debe otorgar algun permiso</div>
-
                       </div>
                           
                       @endforeach
+                      <div id="emensaje_per" class="ocultar" style="display: none; color:red;">Debe otorgar algun permiso</div>
 
 
                     </div>

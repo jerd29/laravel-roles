@@ -46,9 +46,11 @@ class RegisterController extends Controller
 
     public function showRegistrationForm() {
 
-        $roles = Role::all();
+        $roles_admin = Role::all()->where('id', '!=', '3');
+        $roles_superadmin = Role::all();
 
-        return view('auth.register', compact('roles'));
+
+        return view('auth.register', compact('roles_admin', 'roles_superadmin'));
 
         // dd(Role::all());
 

@@ -48,9 +48,22 @@
                                 <div class="col-md-6">
 
                                     <select name="roles" id="roles">
-                                        @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                        @endforeach
+                                        @role('super-admin')
+
+                                            @foreach ($roles_superadmin as $role)
+                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                            @endforeach
+
+                                        @endrole
+
+                                        @unlessrole('super-admin')
+
+                                            @foreach ($roles_admin as $role)
+                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                            @endforeach
+
+                                        @endrole
+
                                     </select>
                                 </div>
 

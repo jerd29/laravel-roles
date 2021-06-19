@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -15,9 +16,10 @@ class Controller extends BaseController
     
     public function showroles() {
 
-        $roles = Role::all();
+        $roles_superadmin = Role::all();
+        $roles_admin = Role::all()->where('id', '!=', '3');
         $permisos = Permission::all();
-        return view('rolesPermisos.roles', compact('roles' , 'permisos'));
+        return view('rolesPermisos.roles', compact('roles_admin' , 'permisos', 'roles_superadmin'));
         
         // return dd(Role::all());
         

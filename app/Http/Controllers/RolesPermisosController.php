@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+
 
 class RolesPermisosController extends Controller
 {
@@ -56,22 +58,40 @@ public function create()
     }
 
       // Update record
-    public function update(Request $request){
+    public function updateRol(Request $request){
 
-        $name = $request->input('name');
-        $email = $request->input('email');
-        $editid = $request->input('editid');
+        $name = $request->input('namerol');
+        $editid = $request->input('idrol');
+        
+        $role = Role::findById($editid);
 
-        if($name !='' && $email != ''){
-        $data = array('name'=>$name,"email"=>$email);
+        // dd($idrol);
+        // $email = $request->input('email');
 
-        // Call updateData() method of Page Model
-        Role::updateData($editid, $data);
-        echo 'Update successfully.';
+        if($name !=''){
+            $data = array(
+                'rolname'=>$name
+                // 'idrol'=>$editid
+            );
+
+        // // Call updateData() method of Page Model
+
+        Role::where('id', $editid)->update(['name'=> $name]);
+        $role->syncPermissions($request->get('permisos'));
+
+
+        // Role::updateData($editid, $data);
+
+        return response()->json([ 
+            'success'=> 'Form is successfully submitted!'
+            // 'data' => $data,
+
+            ]);
         }else{
         echo 'Fill all fields.';
         }
 
         exit; 
     }
+    
 }
