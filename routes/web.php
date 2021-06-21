@@ -26,17 +26,20 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['middleware' => ['permission:crear roles|editar roles|eliminar roles']], function () {
+    Route::group(['middleware' => ['permission:crear roles|editar roles|eliminar roles']], function () {
 
-    Route::get('/roles', 'Controller@showroles')->name('showroles');
+        Route::get('/roles', 'Controller@showroles')->name('showroles');
 
-    Route::post('rolform', 'RolesPermisosController@store');
+        Route::post('rolform', 'RolesPermisosController@store');
 
-    Route::delete('roles/{id}', 'RolesPermisosController@destroy')->name('roles.destroy');
+        Route::delete('roles/{id}', 'RolesPermisosController@destroy')->name('roles.destroy');
 
-    Route::post('updateRol', 'RolesPermisosController@updateRol')->name('roles.update');
+        Route::post('updateRol', 'RolesPermisosController@updateRol')->name('roles.update');
 
-});
+        Route::post('updateUser', 'RegisterController@updateUser')->name('user.update');
+
+
+    });
 
 Route::group(['middleware' => ['permission:crear usuarios|editar usuarios|eliminar usuarios']], function () {
 

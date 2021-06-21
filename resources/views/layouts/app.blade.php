@@ -14,7 +14,7 @@
 
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-    <script src="{{ asset('js/main.js') }}"></script>
+    {{-- <script src="{{ asset('js/main.js') }}"></script> --}}
 
     <script src="{{ asset('js/alertify.js') }}"></script>
 
@@ -69,7 +69,7 @@
                         
 
 
-                        {{-- @role('usuario|admin|super-admin') --}}
+                        @role('usuario|admin|super-admin')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
                             </li>
@@ -128,7 +128,7 @@
                                 </div>
                             </li>
 
-                         {{-- @endrole --}}
+                         @endrole
 
 
 
