@@ -10,6 +10,10 @@ $(document).ready(function() {
 
     $(document).on('click', "#editbtn-user", function() {
       $(this).addClass('edit-item-trigger-clicked'); //useful for identifying which trigger was clicked and consequently grab data from the correct row and not the wrong one.
+      $("#euserform").trigger("reset");
+      $('#emensaje_nameuser').css("display", "none");
+      $('#emensaje_emailuser').css("display", "none");
+
   
       var options = {
         // 'backdrop': 'static'
@@ -24,9 +28,12 @@ $(document).ready(function() {
        nameuser = fila.find("td:eq(1)").text();
        email = fila.find("td:eq(2)").text();
        roles = fila.find("td:eq(4)").text();
+       
        $("#euserform").trigger("reset");
        $("#Euser-name").val(nameuser);
        $("#Euser-email").val(email);
+       $("#roles option:contains("+roles+")").attr('selected', true);
+
 
         // $("#roles").val(roles);
         // $('#roles').find('option[text="'+roles+'"]').prop('selected', true);
@@ -36,7 +43,7 @@ $(document).ready(function() {
         // $('#roles').find('option[text="admin"]').val();
 
 
-       console.log(roles);
+      //  console.log(roles);
 
       $(".modal-header").css("background-color", "#ffed4a");
       $(".modal-header").css("color", "black");      
@@ -59,16 +66,18 @@ $(document).ready(function() {
       
             nameuser = $.trim($('#Euser-name').val());
             email = $.trim($('#Euser-email').val());  
+            roles = $.trim($('#roles').val());  
+
             let _token   = $('meta[name="csrf-token"]').attr('content');
 
       
             if(nameuser == "") {
-              $('#emensaje_np').fadeIn();
+              $('#emensaje_nameuser').fadeIn();
               return false;
             }
       
             if(email == "") {
-                $('#emensaje_np').fadeIn();
+                $('#emensaje_emailuser').fadeIn();
                 return false;
             }
       
@@ -77,7 +86,7 @@ $(document).ready(function() {
               url: "/laravel-roles/public/updateUser",
               type: "post",
               datatype: "json",
-              data: { iduser: iduser, nameuser: nameuser, email: email, _token: _token},
+              data: { iduser: iduser, nameuser: nameuser, email: email, roles: roles, _token: _token},
               success: function (data) {
                 alertify.success("Actualizado");
                 $("#euserform")[0].reset();

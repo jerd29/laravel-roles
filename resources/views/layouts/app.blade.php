@@ -69,7 +69,7 @@
                         
 
 
-                        @role('usuario|admin|super-admin')
+                        @auth
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
                             </li>
@@ -128,7 +128,7 @@
                                 </div>
                             </li>
 
-                         @endrole
+                         @endauth
 
 
 

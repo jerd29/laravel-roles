@@ -103,45 +103,5 @@ class RegisterController extends Controller
 
     }
 
-              // Update record
-          public function updateUser(Request $request){
 
-            $userid = $request->input('iduser');
-            $name = $request->input('nameuser');
-            $email = $request->input('email');
-            // $idrol = $request->input('idrol');
-            // $rolname = $request->input('rolname');
-
-
-            
-            $user = User::findById($userid);
-    
-            // dd($idrol);
-            // $email = $request->input('email');
-    
-            if($name !=''){
-                $data = array(
-                    'name'=>$name
-                    // 'idrol'=>$editid
-                );
-    
-            // // Call updateData() method of Page Model
-    
-            User::where('id', $userid)->update(['name'=> $name, 'email'=> $email]);
-            // $role->syncPermissions($request->get('permisos'));
-    
-    
-            // Role::updateData($editid, $data);
-    
-            return response()->json([ 
-                'success'=> 'Form is successfully submitted!'
-                // 'data' => $data,
-    
-                ]);
-            }else{
-            echo 'Fill all fields.';
-            }
-    
-            exit; 
-        }
 }

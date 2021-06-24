@@ -112,13 +112,11 @@
                         <div class="form-group">
                             <label for="Euser-name" class="col-form-label">Nombre de usuario:</label>
                             <input type="text" class="form-control" id="Euser-name">
-                            <div id="emensaje_np" class="ocultar" style="display: none; color:red;">Debe agregar el nombre
-                                del Rol</div>
+                            <div id="emensaje_nameuser" class="ocultar" style="display: none; color:red;">Debe colocar un nombre de usuario</div>
 
                             <label for="Euser-email" class="col-form-label">Correo:</label>
                             <input type="text" class="form-control" id="Euser-email">
-                            <div id="emensaje_np" class="ocultar" style="display: none; color:red;">Debe agregar el nombre
-                                del Rol</div>
+                            <div id="emensaje_emailuser" class="ocultar" style="display: none; color:red;">Debe agregar un Correo Electronico</div>
 
                             <label for="roles" class="col-form-label">{{ __('Rol') }}</label>
 
@@ -150,11 +148,12 @@
                         </div>
 
 
-                </div>
                 <div class="modal-footer">
                     {{-- <input type="submit" class="btn btn-primary" value="Guardar"> --}}
                     <button type="submit" id="btnGuardar" class="btn btn-dark">Guardar</button>
                 </div>
+            </div>
+
             </div>
             </form>
         </div>

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,7 +37,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
         Route::post('updateRol', 'RolesPermisosController@updateRol')->name('roles.update');
 
-        Route::post('updateUser', 'RegisterController@updateUser')->name('user.update');
+        Route::post('updateUser', 'CrudUsersController@updateUser')->name('user.update');
 
 
     });
